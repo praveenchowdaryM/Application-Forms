@@ -1,5 +1,5 @@
 <div class="d-flex justify-content-center align-items-center" style="height: 700px;">
-    <form [formGroup]="updatePage" class="border p-2 border-2">
+    <form [formGroup]="updatePage" class="border p-2 border-2" >
         <div class="text-center">
             <h3>Update User</h3>
         </div>
@@ -26,7 +26,7 @@
             </div>
         </dl>
         <div class="text-center">
-            <button type="submit" class="float-right btn btn-primary">Save</button>
+            <button type="submit" class="float-right btn btn-primary" (click)="save()">Save</button>
             <button type="submit" routerLink="/dashboard" class="float-left btn btn-primary">Back</button>
         </div>
     </form>

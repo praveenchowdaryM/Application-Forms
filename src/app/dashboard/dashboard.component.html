@@ -1,30 +1,51 @@
-<div>
-    <h3>View User List</h3>
-    <button class="btn btn-primary float-right" routerLink="/login">Back</button>
-    <table class="table" id="registeredData">
-        <thead>
-            <th>UserName</th>
-            <th>FirstName</th>
-            <th>LastName</th>
-            <th>Email</th>
-            <th>PhoneNumber</th>
-            <th>Action</th>
-        </thead>
-        <tbody>
-           <tr *ngFor="let user of registeredData, let i = index">
-                <td>{{user.userName}}</td>
-                <td>{{user.firstName}}</td>
-                <td>{{user.lastName}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.phoneNumber}}</td>
-                <td class="text-center action-block">
-                    <div class="button">
-                        <button type="submit" class="btn btn-warning" (click)="view(i)">View</button>
-                        <button type="submit" class="btn btn-danger" (click)="delete(i)">DeleteUser</button>
-                        <button type="submit" class="btn btn-primary">Upadate</button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <strong class="text-center">
+                    <h3>Registered User List</h3>
+                </strong>
+                <button class="btn btn-primary float-right" routerLink="/login">Back</button>
+            </div>
+            <div class="card-body">
+
+                <table class="table">
+                    <thead>
+                        <th>#</th>
+                        <th>UserName</th>
+                        <th>FirstName</th>
+                        <th>LastName</th>
+                        <th>Email</th>
+                        <th>PhoneNumber</th>
+                        <th class="text-center">Action</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of registeredData, let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{user.userName}}</td>
+                            <td>{{user.firstName}}</td>
+                            <td>{{user.lastName}}</td>
+                            <td>{{user.email}}</td>
+                            <td>{{user.phoneNumber}}</td>
+                            <td class="text-center action-block">
+                                <div class="button">
+                                    <!-- <button type="submit" class="btn btn-success" [routerLink]="['/view']"
+                                        [queryParams]="{id:user.id }" [routerLinkActive]="['router-link-active']"
+                                        target="_blank">view</button>&nbsp;&nbsp; -->
+
+                                    <button type="submit" class="btn btn-success"
+                                        (click)="viewUser(user.id)">View</button>&nbsp;&nbsp;
+
+                                    <button type="submit" class="btn btn-primary" [routerLink]="['/update']"
+                                        [queryParams]="{id:user.id }" [routerLinkActive]="['router-link-active']"
+                                        target="_blank">Update</button>&nbsp;&nbsp;
+
+                                    <button type="submit" class="btn btn-danger"
+                                        (click)="deleteUser(user.id)">DeleteUser</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>

@@ -3,6 +3,8 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { RegistrationService } from '../registration.service';
 import { array } from '../contract/array';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  constructor(private formBuilder: FormBuilder, private service:RegistrationService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private service:RegistrationService,private spinner: NgxSpinnerService,private router: Router) { }
   submitted = false;
   registeredData: array[] = undefined as any;
   loginPage: any;
@@ -20,17 +22,36 @@ export class LoginComponent implements OnInit {
       userName: this.formBuilder.control('', [Validators.required]),
       password: this.formBuilder.control('', [Validators.required])
     });
-    this.registeredData = this.service.getRegisterData();
+    // this.registeredData = this.service.getRegisterData();
   }
-  login(){
-    this.submitted = true;
-    for(const data of this.registeredData) {
-      if(this.loginPage.value.userName == data.userName && this.loginPage.value.password == data.password) {
-        this.router.navigate(['/dashboard']);
-      } 
-      else {
-        this.registrationPage = 'Please Check User Name And Password';
-      }
-    }
+
+  login() {
+    this.spinner.show();
+    this.service
+      .login(this.loginPage.value.userName, this.loginPage.value.password)
+      .subscribe(
+        (data: any) => {
+          this.spinner.hide();
+          // Use SweetAlert for success
+          Swal.fire({
+            icon: 'success',
+            title: 'Login Success',
+            text: 'You are logged in successfully!',
+          }).then(() => {
+            this.router.navigateByUrl('/dashboard');
+          });
+        },
+        (error: any) => {
+          this.spinner.hide();
+          // Use SweetAlert for error
+          Swal.fire({
+            icon: 'error',
+            title: 'Login Error',
+            text: 'Invalid Username or Password.',
+          });
+        }
+      );
   }
+
+
 }
